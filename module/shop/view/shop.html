@@ -1,0 +1,51 @@
+<html>
+    <head>
+    <!-- Leaflet CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Swiper CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    </head>
+    <body>
+
+        <section class="shop-header">
+            <p class="shop-header__label">NEXT EVENTS</p>
+            <div class="shop-header__row">
+                <h1 class="shop-header__title">Discover  <span class="shop-header__accent">experiences</span></h1>
+                <span class="shop-header__count" id="shop-count">0 events</span>
+            </div>
+            
+        </section>
+
+
+        
+
+
+        <div class="shop-layout">
+            <aside class="filters"></aside>
+            <div class="shop-main">
+                <div id="containerevent"></div>
+                 <div id="shop-pagination"></div>
+                
+                <div id="details-shop" style="display:none;">
+            <button id="btn-back">← Volver</button>
+            <div id="container-date-img"></div>
+            <div id="container-date-event"></div>
+        </div>
+
+                <!-- Mapa -->
+                <div class="map-wrap">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Leaflet JS -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    </body>
+</html>
