@@ -85,6 +85,7 @@ function filters($filter, $limit, $offset){
             ";
 
     $conditions = [];
+    $cat_conditions = [];
     $params = [];
 
     foreach ($filter as $f) {
@@ -100,11 +101,13 @@ function filters($filter, $limit, $offset){
                 $params[':name_art'] = $val;
                 break;
             case 'name_cat':
-                $conditions[] = "te.id_terra IN (
+                $i = count($cat_conditions);
+                $key = ':name_cat_' . $i;
+                $cat_conditions[] = "te.id_terra IN (
                     SELECT ec.id_terra FROM event_categories ec
                     INNER JOIN categories ca ON ec.id_cat = ca.id_cat
-                    WHERE ca.name_cat = :name_cat)";
-                $params[':name_cat'] = $val;
+                    WHERE ca.name_cat = $key)";
+                $params[$key] = $val;
                 break;
             case 'name_city':
                 $conditions[] = "c.name_city = :name_city";
@@ -125,6 +128,10 @@ function filters($filter, $limit, $offset){
         }
     }
 
+    if (!empty($cat_conditions)) {
+        $conditions[] = '(' . implode(' OR ', $cat_conditions) . ')';
+    }
+
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
@@ -133,9 +140,15 @@ function filters($filter, $limit, $offset){
 
     $conexion = connect::con();
     $stmt = $conexion->prepare($sql);
-    $params[':limit']  = $limit;
-    $params[':offset'] = $offset;
-    $stmt->execute($params);
+
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val);
+    }
+
+    $stmt->bindValue(':limit',  $limit,  PDO::PARAM_INT);  // ← entero
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);  // ← entero
+
+    $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     connect::close($conexion);
     return $rows;

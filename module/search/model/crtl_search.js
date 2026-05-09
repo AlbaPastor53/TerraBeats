@@ -91,25 +91,25 @@ function button_search() {
         var search = [];
  
         if ($('.search_city').val() != undefined) {
-            search.push({ "city": [$('.search_city').val()] });
+            search.push({ "name_city": [$('.search_city').val()] });
             if ($('.search_category').val() != undefined) {
-                search.push({ "category": [$('.search_category').val()] });
+                search.push({ "name_cat": [$('.search_category').val()] });
             }
             if ($('#autocom').val() != undefined) {
-                search.push({ "artist": [$('#autocom').val()] });
+                search.push({ "name_art": [$('#autocom').val()] });
             }
         } else if ($('.search_city').val() == undefined) {
             if ($('.search_category').val() != undefined) {
-                search.push({ "category": [$('.search_category').val()] });
+                search.push({ "name_cat": [$('.search_category').val()] });
             }
             if ($('#autocom').val() != undefined) {
-                search.push({ "artist": [$('#autocom').val()] });
+                search.push({ "name_art": [$('#autocom').val()] });
             }
         }
  
-        localStorage.removeItem('filters_search');
+        localStorage.removeItem('filter');
         if (search.length != 0) {
-            localStorage.setItem('filters_search', JSON.stringify(search));
+            localStorage.setItem('filter', JSON.stringify(search));
         }
         window.location.href = 'index.php?modules=shop&op=list';
     });

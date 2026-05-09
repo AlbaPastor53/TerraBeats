@@ -6,11 +6,16 @@ var currentPage = 1;
 var limitPerPage = 4;
 
 function loadEvent() {
+   
     var filter = JSON.parse(localStorage.getItem('filter')) || false;
-    
+    console.log('filter:', filter);
+    console.log('tipo:', typeof filter);
+    console.log('length:', filter.length);
     if (filter && filter.length > 0) {
+        console.log('ENTRA EN FILTER');
         ajaxForSearch("module/shop/controller/controller_shop.php?op=filter", filter, limitPerPage, 0);
     } else {
+        console.log('ENTRA EN ALL_EVENT');
         ajaxForSearch("module/shop/controller/controller_shop.php?op=all_event", [], limitPerPage, 0);
     }
 }
@@ -21,7 +26,11 @@ function ajaxForSearch(url, filter, limit, offset) {
     offset = (offset !== undefined) ? offset : 0;
     console.log("Datos recibidos:");
  
-    ajaxPromise(url, 'POST', 'JSON', { 'filter': JSON.stringify(filter), 'limit': limit, 'offset': offset })
+    ajaxPromise(url, 'POST', 'JSON', { 
+        'filter': JSON.stringify(filter), 
+        'limit': limit, 
+        'offset': offset })
+        
         .then(function(data) {
             console.log(data);
             console.log(limit);
@@ -580,7 +589,7 @@ function pagination() {
     var countUrl, countData;
     if (filter && filter.length > 0) {
         countUrl  = "module/shop/controller/controller_shop.php?op=count_filters";
-        countData = { filter: filter };
+        countData = { 'filter': JSON.stringify(filter) };
     } else {
         countUrl  = "module/shop/controller/controller_shop.php?op=count";
         countData = {};

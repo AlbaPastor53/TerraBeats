@@ -68,15 +68,16 @@ switch ($_GET['op']) {
         $limit  = isset($_POST['limit'])  ? (int)$_POST['limit']  : 4;
         $offset = isset($_POST['offset']) ? (int)$_POST['offset'] : 0;
         $filter = json_decode($_POST['filter'], true);
-        $selSlide = $homeQuery -> filters($_POST['filter'], $limit, $offset);
-        if (!empty($selSlide)) {
-            // echo json_encode("filter");
-            // exit;
-            
-            echo json_encode($selSlide);
+
+        if (!is_array($filter) || empty($filter)) {
+            echo json_encode("error");
+            exit;
         }
-        else {
-           echo json_encode("error");
+        $selSlide = $homeQuery->filters($filter, $limit, $offset); // ← usa $filter, no $_POST['filter']
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        } else {
+            echo json_encode("error");
         }
         break;
     case 'count':
