@@ -1,12 +1,12 @@
 function load_cities() {
-    ajaxPromise('modules/search/crtl/crtl_search.php?op=search_city', 'POST', 'JSON')
+    ajaxPromise('module/search/crtl/crtl_search.php?op=search_city', 'POST', 'JSON')
         .then(function (data) {
             $('<option>City</option>').attr('selected', true).attr('disabled', true).appendTo('.search_city');
             for (row in data) {
                 $('<option value="' + data[row].id_city + '">' + data[row].name_city + '</option>').appendTo('.search_city');
             }
         }).catch(function () {
-            window.location.href = "index.php?modules=exception&op=503&error=fail_load_cities&type=503";
+            window.location.href = "index.php?module=exception&op=503&error=fail_load_cities&type=503";
         });
 }
  
@@ -14,23 +14,23 @@ function load_category(city) {
     $('.search_category').empty();
  
     if (city == undefined) {
-        ajaxPromise('modules/search/crtl/crtl_search.php?op=search_category_null', 'POST', 'JSON')
+        ajaxPromise('module/search/crtl/crtl_search.php?op=search_category_null', 'POST', 'JSON')
             .then(function (data) {
                 $('<option>Category</option>').attr('selected', true).attr('disabled', true).appendTo('.search_category');
                 for (row in data) {
                     $('<option value="' + data[row].id_cat + '">' + data[row].name_cat + '</option>').appendTo('.search_category');
                 }
             }).catch(function () {
-                window.location.href = "index.php?modules=exception&op=503&error=fail_load_category&type=503";
+                window.location.href = "index.php?module=exception&op=503&error=fail_load_category&type=503";
             });
     } else {
-        ajaxPromise('modules/search/crtl/crtl_search.php?op=search_category', 'POST', 'JSON', city)
+        ajaxPromise('module/search/crtl/crtl_search.php?op=search_category', 'POST', 'JSON', { city: city })
             .then(function (data) {
                 for (row in data) {
                     $('<option value="' + data[row].id_cat + '">' + data[row].name_cat + '</option>').appendTo('.search_category');
                 }
             }).catch(function () {
-                window.location.href = "index.php?modules=exception&op=503&error=fail_load_category_2&type=503";
+                window.location.href = "index.php?module=exception&op=503&error=fail_load_category_2&type=503";
             });
     }
 }
@@ -43,7 +43,7 @@ function launch_search() {
         if (city === 0) {
             load_category();
         } else {
-            load_category({ city });
+            load_category(city);
         }
     });
 }
@@ -62,7 +62,7 @@ function autocomplete() {
             sdata.category = $('.search_category').val();
         }
  
-        ajaxPromise('modules/search/crtl/crtl_search.php?op=autocomplete', 'POST', 'JSON', sdata)
+        ajaxPromise('module/search/crtl/crtl_search.php?op=autocomplete', 'POST', 'JSON', sdata)
             .then(function (data) {
                 $('#search_auto').empty();
                 $('#search_auto').fadeIn(300);
@@ -90,6 +90,8 @@ function button_search() {
     $('#search-btn').on('click', function () {
         var search = [];
  
+        console.log('city val:', $('.search_city').val());
+        
         if ($('.search_city').val() != undefined) {
             search.push({ "name_city": [$('.search_city').val()] });
             if ($('.search_category').val() != undefined) {
@@ -111,7 +113,7 @@ function button_search() {
         if (search.length != 0) {
             localStorage.setItem('filter', JSON.stringify(search));
         }
-        window.location.href = 'index.php?modules=shop&op=list';
+        window.location.href = 'index.php?module=shop&op=list';
     });
 }
  

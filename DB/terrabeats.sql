@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 06-05-2026 a las 09:40:42
+-- Tiempo de generación: 11-05-2026 a las 15:28:42
 -- Versión del servidor: 8.4.7
 -- Versión de PHP: 8.3.28
 
@@ -44,7 +44,7 @@ INSERT INTO `artists` (`id_art`, `name_art`, `img_art`) VALUES
 (2, 'morat', 'view/img/home/artists/Morat.jpg'),
 (3, 'arde_bogota', 'view/img/home/artists/Arde_bogotá.jpg'),
 (4, 'olivia_rodrigo', 'view/img/home/artists/Olivia.jpg'),
-(5, '\r\nmarshmello', 'view/img/home/artists/marsh.jpg'),
+(5, 'marshmello', 'view/img/home/artists/marsh.jpg'),
 (6, 'arctic_monkeys', 'view/img/home/artists/articmonkeys.jpg'),
 (7, 'natalia_lacunza', 'view/img/home/artists/Natalia_Lacunza.jpg');
 

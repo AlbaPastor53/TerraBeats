@@ -33,7 +33,7 @@
             <div class="div_search" style="display: inline; width: 5%; height: 5%;">
                 <select class="search_city"></select>
                 <select class="search_category"></select>
-                <input type="text" id="autocom" autocomplete="off" placeholder="City" style="width: 10%;" />
+                <input type="text" id="autocom" autocomplete="off" placeholder="" style="width: 10%;" />
                 <div id="search_auto"></div>
                 <input type="button" value="search" id="search-btn" class="btna third" style="display: inline;" />
             </div>

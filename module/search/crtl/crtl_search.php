@@ -1,10 +1,10 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'] . '/CRUD/terrabeats_MVC/';
-include($path . "/module/shop/model/DAO_search.php");
+include($path . "/module/search/model/DAO_search.php");
 
 switch ($_GET['op']) {
-    case 'search_city';
+    case 'search_city':
         $homeQuery = new DAO_search();
         $selSlide = $homeQuery -> search_city();
         if (!empty($selSlide)) {
@@ -15,7 +15,7 @@ switch ($_GET['op']) {
         }
         break;
 
-    case 'search_category_null';
+    case 'search_category_null':
         $homeQuery = new DAO_search();
         $selSlide = $homeQuery -> search_category_null();
         if (!empty($selSlide)) {
@@ -26,7 +26,7 @@ switch ($_GET['op']) {
         }
         break;
 
-    case 'search_category';
+    case 'search_category':
         $homeQuery = new DAO_search();
         $selSlide = $homeQuery -> search_category($_POST['city']);        
         if (!empty($selSlide)) {

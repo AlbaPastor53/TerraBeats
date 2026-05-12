@@ -14,7 +14,6 @@ class DAO_search {
         connect::close($conexion);
         return $rows;
     }
- 
     // Todas las categorías (sin filtro de ciudad)
     function search_category_null() {
         $sql = "SELECT DISTINCT c.id_cat, c.name_cat, c.img_cat
@@ -28,7 +27,6 @@ class DAO_search {
         connect::close($conexion);
         return $rows;
     }
- 
     // Categorías disponibles para la ciudad seleccionada
     function search_category($id_city) {
         $sql = "SELECT DISTINCT c.id_cat, c.name_cat
@@ -44,7 +42,6 @@ class DAO_search {
         connect::close($conexion);
         return $rows;
     }
-
      function select_only_city($complete, $id_city) {
         $sql = "SELECT DISTINCT a.id_art, a.name_art
                 FROM artists a
@@ -63,7 +60,6 @@ class DAO_search {
         connect::close($conexion);
         return $rows;
     }
-
     function select_only_category($id_category, $complete) {
         $sql = "SELECT DISTINCT a.id_art, a.name_art
                 FROM artists a
@@ -83,7 +79,6 @@ class DAO_search {
         connect::close($conexion);
         return $rows;
     }
-
     function select_city_category($complete, $id_city, $id_category) {
         $sql = "SELECT DISTINCT a.id_art, a.name_art
                 FROM artists a
@@ -105,7 +100,6 @@ class DAO_search {
         connect::close($conexion);
         return $rows;
     }
- 
     // Autocomplete: sin filtros, busca artistas por nombre
     function select_artist($complete) {
         $sql = "SELECT id_art, name_art
