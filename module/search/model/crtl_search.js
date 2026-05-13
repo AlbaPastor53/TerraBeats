@@ -90,7 +90,7 @@ function button_search() {
     $('#search-btn').on('click', function () {
         var search = [];
  
-        console.log('city val:', $('.search_city').val());
+        // console.log('city val:', $('.search_city').val());
         
         if ($('.search_city').val() != undefined) {
             search.push({ "name_city": [$('.search_city').val()] });
@@ -113,7 +113,7 @@ function button_search() {
         if (search.length != 0) {
             localStorage.setItem('filter', JSON.stringify(search));
         }
-        window.location.href = 'index.php?module=shop&op=list';
+        window.location.href = 'index.php?module=shop&op=view';
     });
 }
  

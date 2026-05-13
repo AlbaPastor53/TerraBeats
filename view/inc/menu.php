@@ -21,21 +21,24 @@
 
         <!-- Buscador + avatar -->
         <div class="navbar__actions">
-            <!-- <div class="navbar__search">
-                <input type="text" placeholder="Buscar eventos..." class="navbar__search-input" id="searchInput">
-                <button class="navbar__search-btn" aria-label="Buscar">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                    </svg>
-                </button>
-            </div> -->
 
-            <div class="div_search" style="display: inline; width: 5%; height: 5%;">
-                <select class="search_city"></select>
-                <select class="search_category"></select>
-                <input type="text" id="autocom" autocomplete="off" placeholder="" style="width: 10%;" />
-                <div id="search_auto"></div>
-                <input type="button" value="search" id="search-btn" class="btna third" style="display: inline;" />
+            <div class="div_search">
+                <div class="search-section">
+                    <label>City</label>
+                    <select class="search_city"></select>
+                </div>
+                <div class="search-divider"></div>
+                <div class="search-section">
+                    <label>Category</label>
+                    <select class="search_category"></select>
+                </div>
+                <div class="search-divider"></div>
+                <div class="search-section search-section--grow">
+                    <label>Artist</label>
+                    <input type="text" id="autocom" autocomplete="off" placeholder="Search for ..." />
+                    <div id="search_auto"></div>
+                </div>
+                <button id="search-btn">Search</button>
             </div>
             
             <a href="index.php?page=contactus" class="navbar__avatar" aria-label="Perfil">

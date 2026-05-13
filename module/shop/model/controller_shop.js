@@ -9,8 +9,8 @@ function loadEvent() {
    
     var filter = JSON.parse(localStorage.getItem('filter')) || false;
     console.log('filter:', filter);
-    console.log('tipo:', typeof filter);
-    console.log('length:', filter.length);
+    // console.log('tipo:', typeof filter);
+    // console.log('length:', filter.length);
     if (filter && filter.length > 0) {
         console.log('ENTRA EN FILTER');
         ajaxForSearch("module/shop/controller/controller_shop.php?op=filter", filter, limitPerPage, 0);
@@ -24,7 +24,7 @@ function ajaxForSearch(url, filter, limit, offset) {
     filter = filter || [];
     limit  = (limit  !== undefined) ? limit  : limitPerPage;
     offset = (offset !== undefined) ? offset : 0;
-    console.log("Datos recibidos:");
+    // console.log("Datos recibidos:");
  
     ajaxPromise(url, 'POST', 'JSON', { 
         'filter': JSON.stringify(filter), 
@@ -32,8 +32,8 @@ function ajaxForSearch(url, filter, limit, offset) {
         'offset': offset })
         
         .then(function(data) {
-            console.log(data);
-            console.log(limit);
+            // console.log(data);
+            // console.log(limit);
             $('#containerevent').empty();
 
                 if (data === "error") {
@@ -279,7 +279,7 @@ function print_filters() {
         dataType: 'json',
        
         success: function(data) {
-             console.log(data);
+            //  console.log(data);
 
             // Helper: limpia \r\n y capitaliza
             const label = str => str.replace(/\r?\n/g, '').trim()
