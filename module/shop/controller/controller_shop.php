@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 1); // activa solo para debug
-error_reporting(E_ALL);
 // $data = 'hola crtl shop';
 // die('<script>console.log('.json_encode( $data ) .');</script>');
 

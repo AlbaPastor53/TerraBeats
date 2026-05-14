@@ -8,12 +8,13 @@ var limitPerPage = 4;
 function loadEvent() {
    
     var filter = JSON.parse(localStorage.getItem('filter')) || false;
-    console.log('filter:', filter);
+    // console.log('filter:', filter);
     // console.log('tipo:', typeof filter);
     // console.log('length:', filter.length);
     if (filter && filter.length > 0) {
-        console.log('ENTRA EN FILTER');
+        // console.log('ENTRA EN FILTER');
         ajaxForSearch("module/shop/controller/controller_shop.php?op=filter", filter, limitPerPage, 0);
+        highlightFilters();
     } else {
         console.log('ENTRA EN ALL_EVENT');
         ajaxForSearch("module/shop/controller/controller_shop.php?op=all_event", [], limitPerPage, 0);
@@ -24,7 +25,7 @@ function ajaxForSearch(url, filter, limit, offset) {
     filter = filter || [];
     limit  = (limit  !== undefined) ? limit  : limitPerPage;
     offset = (offset !== undefined) ? offset : 0;
-    // console.log("Datos recibidos:");
+    console.log("Datos recibidos:");
  
     ajaxPromise(url, 'POST', 'JSON', { 
         'filter': JSON.stringify(filter), 
@@ -32,7 +33,7 @@ function ajaxForSearch(url, filter, limit, offset) {
         'offset': offset })
         
         .then(function(data) {
-            // console.log(data);
+            console.log(data);
             // console.log(limit);
             $('#containerevent').empty();
 
@@ -272,6 +273,57 @@ function updatePriceVisual() {
     $('#price_fill').css({ left: (min / 300) * 100 + '%', width: ((max - min) / 300) * 100 + '%' });
 }
 
+function highlightFilters() {
+    var all_filters = JSON.parse(localStorage.getItem('filter')) || false;
+    console.log("all_filters: "+all_filters);
+
+
+   all_filters.forEach(function(f) {
+        var key = f[0];
+        var val = f[1];
+
+        switch (key) {
+
+            // Ciudad → radio button
+            case 'name_city':
+                $('.filter_cities input[type="radio"][value="' + val + '"]').prop('checked', true);
+                localStorage.setItem('filter_cities', val);
+                break;
+
+            // Categoría → checkbox
+            case 'name_cat':
+                $('.filter_categories input[type="checkbox"][value="' + val + '"]').prop('checked', true);
+                // Acumula en filter_categories (puede haber varias)
+                var saved = JSON.parse(localStorage.getItem('filter_categories') || '[]');
+                if (!saved.includes(val)) { saved.push(val); }
+                localStorage.setItem('filter_categories', JSON.stringify(saved));
+                break;
+
+            // Artista → select
+            case 'name_art':
+                $('.filter_artist').val(val);
+                localStorage.setItem('filter_artist', val);
+                break;
+
+            // Tipo → select
+            case 'name_type':
+                $('.filter_types').val(val);
+                localStorage.setItem('filter_types', val);
+                break;
+
+            // Precio
+            case 'price_min':
+                $('#price_min').val(val);
+                break;
+            case 'price_max':
+                $('#price_max').val(val);
+                break;
+        }
+    });
+
+    updatePriceVisual();
+}
+
 function print_filters() {
     $.ajax({
         url: 'module/shop/controller/controller_shop.php?op=get_filters',
@@ -358,6 +410,7 @@ function print_filters() {
             `);
 
             filter_button()
+            highlightFilters();
             // Reinicializa eventos del slider y botones DESPUÉS de pintar el DOM
             // init_price_slider();
             // init_filter_buttons();

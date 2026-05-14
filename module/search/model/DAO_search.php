@@ -34,7 +34,7 @@ class DAO_search {
                 INNER JOIN event_categories ec ON ec.id_cat  = c.id_cat
                 INNER JOIN terra_events     te ON te.id_terra = ec.id_terra
                 WHERE te.id_city = :id_city
-                ORDER BY c.name_cat";
+                ";
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
         $stmt->execute([':id_city' => $id_city]);

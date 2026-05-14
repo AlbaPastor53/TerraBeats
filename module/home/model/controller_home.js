@@ -269,6 +269,15 @@ function loadType() {
 }
 
 function clicks(){
+
+            localStorage.removeItem('filter');
+            localStorage.removeItem('filter_artist');
+            localStorage.removeItem('filter_categories');
+            localStorage.removeItem('filter_cities');
+            localStorage.removeItem('filter_types');
+            localStorage.removeItem('filter_price');
+
+            
     $(document).on("click",'.cat_bot', function (){
         var filter = [];
         
