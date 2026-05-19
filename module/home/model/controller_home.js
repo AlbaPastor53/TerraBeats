@@ -1,4 +1,5 @@
-
+const MESES = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+ 
 
 function loadEvents() {
 
@@ -268,6 +269,72 @@ function loadType() {
     });
 }
 
+function loadMostVisited() {
+    ajaxPromise('module/home/controller/controller_home.php?op=homePageMostVisited', 'GET', 'JSON')
+    .then(function(data) {
+         console.log(data);
+        $('#containerMostVisited').empty();
+
+        for (let row = 0; row < data.length; row++) {
+            const p = data[row];
+            const f = p.event_date.split('-');
+            const mes = MESES[parseInt(f[1]) - 1];
+
+            $('<div></div>')
+                .addClass("swiper-slide")
+                .attr('id', p.id_terra)
+                .appendTo('#containerMostVisited')
+                .html(`
+            
+
+            <div class="user_card" id="${p.name_event}">
+                <div class="event-card__img-wrap">
+                    <img src="${p.img}" alt="${p.name_event}"/>
+                    <span class="event-card__badge">${p.status}</span>
+                </div>
+                <div class="event-card__body">
+                    <p class="event-card__title">${p.name_event}</p>
+                    <div class="event-card__meta">
+                        <span class="event-card__meta-item">
+                            <span class="material-symbols-outlined">location_on</span>
+                            ${p.location}
+                        </span>
+                        <span class="event-card__meta-item">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                            ${f[2]} ${mes} ${f[0]}
+                        </span>
+                        <span class="event-card__meta-item">
+                            <span class="material-symbols-outlined">schedule</span>
+                            ${p.event_time}
+                        </span>
+                    </div>
+                    <div class="event-card__footer">
+                        <span class="event-card__price">${p.price}€</span>
+                        <button class="btn-ticket" data-id="${p.id_terra}">Ver entradas</button>
+                    </div>
+                </div>
+            </div>
+            `);
+        }
+
+        const swiperMost = new Swiper('#mostSwiper', {
+            slidesPerView: 3,
+            slidesPerGroup: 1,
+            spaceBetween: 18,
+            loop: false,
+            speed: 450,
+            pagination: false,
+        });
+
+        document.getElementById('mostPrev').addEventListener('click', () => swiperMost.slidePrev());
+        document.getElementById('mostNext').addEventListener('click', () => swiperMost.slideNext());
+
+
+    }).catch(function(err) {
+        console.log('error loadMostVisited', err);
+    });
+}
+
 function clicks(){
 
             localStorage.removeItem('filter');
@@ -332,5 +399,6 @@ $(document).ready(function () {
     loadArtist();
     loadCity();
     loadType();
+    loadMostVisited();
     clicks();
 });

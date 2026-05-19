@@ -91,13 +91,14 @@ function clicks() {
     $(document).on("click", ".more_info_list", function() {
         let id_terra = this.getAttribute('id');
         loadDetails(id_terra);
+        updateMostVisited(id);
     });
 
     $(document).on("click", "#btn-back", function() {
         $('#details-shop').hide();
         $('#containerevent').show();
         $('.shop-header').show();
-        // Limpiar el detalle al volver
+        $('#shop-pagination').show();
         $('#container-date-img').empty();
         $('#container-date-event').empty();
     });
@@ -256,8 +257,9 @@ function loadDetails(id) {
             });
             
         });
+        $('#shop-pagination').hide();
         mapLeaflet_one(p);
-       
+        more_event_related(data[0].artists);
 
     }).catch(function(error) {
         console.error('Error REAL:', error);
@@ -275,8 +277,9 @@ function updatePriceVisual() {
 
 function highlightFilters() {
     var all_filters = JSON.parse(localStorage.getItem('filter')) || false;
-    console.log("all_filters: "+all_filters);
+    console.log("all_filters: " + all_filters);
 
+if (!all_filters || all_filters.length === 0) return;
 
    all_filters.forEach(function(f) {
         var key = f[0];
@@ -698,32 +701,26 @@ function pagination() {
         });
 }
 
-function event_related(loadeds = 0, artist_r, total_items) {
-    let items = 3;
+function event_related(loadeds = 0, more_art, total_items) {
+    let items =3;
     let loaded = loadeds;
-    let type = artist_r;
+    let art = more_art;
     let total_item = total_items;
 
-    ajaxPromise("module/shop/controller/controller_shop.php?op=event_related", 'POST', 'JSON', { 'type': type, 'loaded': loaded, 'items': items })
+    ajaxPromise('module/shop/controller/controller_shop.php?op=event_related', 'POST', 'JSON', { 'art': art, 'loaded': loaded, 'items': items  })
         .then(function(data) {
             if (loaded == 0) {
                 $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
                     .html(
-                        '<h2 class="cat">Events related</h2>'
+                        '<h2 class="cat">Artists related</h2>'
                     )
                 for (row in data) {
-                    if (data[row].id_car != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_terra, 'class': 'more_info_list' }).appendTo('.title_content')
-                            .html(
-                                "<li class='portfolio-item'>" +
-                                "<div class='item-main'>" +
-                                "<div class='portfolio-image'>" +
-                                "<img src = " + data[row].img_art + " alt='imagen car' </img> " +
-                                "</div>" +
-                                "<h5>" + data[row].id_art + "  " + data[row].name_art + "</h5>" +
-                                "</div>" +
-                                "</li>"
-                            )
+                    if (data[row].id_terra != undefined) {
+                        $('<div></div>').attr({ 'id': data[row].id_car, 'class': 'more_info_list' }).appendTo('.title_content')
+                            .html(`
+                                <p>${data[row].name_event}</p>
+                                <p>${data[row].name_art}</p>
+                            `);
                     }
                 }
                 $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
@@ -731,59 +728,27 @@ function event_related(loadeds = 0, artist_r, total_items) {
                         '<button class="load_more_button" id="load_more_button">LOAD MORE</button>'
                     )
             }
-            if (loaded >= 3) {
-                for (row in data) {
-                    if (data[row].id_terra != undefined) {
-                        console.log(data);
-                        $('<div></div>').attr({ 'id': data[row].id_terra, 'class': 'more_info_list' }).appendTo('.title_content')
-                            .html(
-                                "<li class='portfolio-item'>" +
-                                "<div class='item-main'>" +
-                                "<div class='portfolio-image'>" +
-                                "<img src = " + data[row].img_art + " alt='imagen car' </img> " +
-                                "</div>" +
-                                "<h5>" + data[row].id_art + "  " + data[row].name_art + "</h5>" +
-                                "</div>" +
-                                "</li>"
-
-                            )
-                    }
-                }
-                var total_event = total_item - 3;
-                if (total_event <= loaded) {
-                    $('.more_car__button').empty();
-                    $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
-                        .html(
-                            "</br><button class='btn-notexist' id='btn-notexist'></button>"
-                        )
-                } else {
-                    $('.more_car__button').empty();
-                    $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
-                        .html(
-                            '<button class="load_more_button" id="load_more_button">LOAD MORE</button>'
-                        )
-                }
-            }
         }).catch(function() {
             console.log("error cars_related");
         });
 }
 
-function more_cars_related(artist_r) {
-    var artist_r = artist_r;
+function more_event_related(more_art){
+    var more_art = more_art;
     var items = 0;
-    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=count_cars_related', 'POST', 'JSON', { 'artist_r': artist_r })
+    ajaxPromise('module/shop/controller/controller_shop.php?op=count_event_related', 'POST', 'JSON', { 'more_art': more_art })
         .then(function(data) {
-            var total_items = data[0].n_prod;
-            cars_related(0, artist_r, total_items);
+            var total_items = data[0].count_artists;
+            event_related(0, more_art, total_items);
             $(document).on("click", '.load_more_button', function() {
                 items = items + 3;
                 $('.more_car__button').empty();
-                cars_related(items, artist_r, total_items);
+                event_related(items, more_art, total_items);
             });
         }).catch(function() {
             console.log('error total_items');
         });
+
 }
 
 $(document).ready(function() {

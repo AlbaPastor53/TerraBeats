@@ -1,7 +1,7 @@
 function load_cities() {
     ajaxPromise('module/search/crtl/crtl_search.php?op=search_city', 'POST', 'JSON')
         .then(function (data) {
-            $('.search_city').empty(); // 👈 limpiar antes de añadir
+            $('.search_city').empty(); //  limpiar antes de añadir
             $('<option>City</option>').attr('selected', true).attr('disabled', true).appendTo('.search_city');
             for (row in data) {
                 $('<option value="' + data[row].id_city + '">' + data[row].name_city + '</option>').appendTo('.search_city');
@@ -47,7 +47,7 @@ function launch_search() {
         if (!cityVal || cityText === "City") {
             load_category();
         } else {
-            load_category(cityVal);  // 👈 pasar ID, no texto
+            load_category(cityVal);  //  pasar ID, no texto
         }
     });
 }

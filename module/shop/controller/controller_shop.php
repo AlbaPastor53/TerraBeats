@@ -106,4 +106,33 @@ switch ($_GET['op']) {
         $data = $daoshop->select_filters_data();
         echo json_encode($data);
         break;
+
+    case 'count_event_related' :
+        $daoshop = new DAOShop();
+        $more_art = $_POST['more_art'];
+        $data = $daoshop->count_more_events_related($more_art);
+        echo json_encode($data);
+        break;
+
+     case 'event_related' :
+        $more_art = $_POST['art'];
+        $loaded =  $_POST['loaded'];
+        $items =  $_POST['items'];
+
+        $daoshop = new DAOShop();
+        $data = $daoshop->select_events_related($more_art, $loaded, $items);
+        echo json_encode($data);
+        break;
+
+    case 'update_most_visited':
+        try {
+            $daoshop = new DAOShop();
+            $daoshop->update_visits_event($_GET['id']);
+            echo json_encode("ok");
+        } catch (Exception $e) {
+            echo json_encode("error");
+        }
+        break;
+
+
 }
