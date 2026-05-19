@@ -234,7 +234,7 @@ class DAOShop{
         ];
     }
 
-    function select_events_related($art, $loaded, $items) {
+    function select_events_related($art, $offset, $limit) {
         $sql = "SELECT 
                 te.*,
                 c.name_city,
@@ -249,13 +249,13 @@ class DAOShop{
             LEFT JOIN artists a2 ON ea2.id_art = a2.id_art
             WHERE a.name_art = '$art'
             GROUP BY te.id_terra
-            LIMIT $loaded, $items";
-
+            LIMIT :limit OFFSET :offset";
+             
              $conexion = connect::con();
             $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(':art', $art);
-            $stmt->bindValue(':loaded', (int)$loaded, PDO::PARAM_INT);
-            $stmt->bindValue(':items',  (int)$items,  PDO::PARAM_INT);
+            $stmt->bindValue(':art',    $art,         PDO::PARAM_STR);
+            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+            $stmt->bindValue(':limit',  (int)$limit,  PDO::PARAM_INT);
             $stmt->execute();
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             connect::close($conexion);
@@ -280,7 +280,7 @@ class DAOShop{
     }
 
     function update_visits_event($id) {
-        $sql = "UPDATE terra_events SET visists = visists + 1 WHERE id_terra = :id";
+        $sql = "UPDATE terra_events SET visits = visits + 1 WHERE id_terra = :id";
 
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);

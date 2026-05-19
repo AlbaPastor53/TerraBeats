@@ -91,7 +91,7 @@ function clicks() {
     $(document).on("click", ".more_info_list", function() {
         let id_terra = this.getAttribute('id');
         loadDetails(id_terra);
-        updateMostVisited(id);
+        updateMostVisited(id_terra);
     });
 
     $(document).on("click", "#btn-back", function() {
@@ -702,14 +702,14 @@ function pagination() {
 }
 
 function event_related(loadeds = 0, more_art, total_items) {
-    let items =3;
-    let loaded = loadeds;
+    let limit =3;
+    let offset = loadeds;
     let art = more_art;
     let total_item = total_items;
 
-    ajaxPromise('module/shop/controller/controller_shop.php?op=event_related', 'POST', 'JSON', { 'art': art, 'loaded': loaded, 'items': items  })
+    ajaxPromise('module/shop/controller/controller_shop.php?op=event_related', 'POST', 'JSON', { 'art': art, 'offset': offset, 'limit': limit  })
         .then(function(data) {
-            if (loaded == 0) {
+            if (offset == 0) {
                 $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
                     .html(
                         '<h2 class="cat">Artists related</h2>'
@@ -735,20 +735,31 @@ function event_related(loadeds = 0, more_art, total_items) {
 
 function more_event_related(more_art){
     var more_art = more_art;
-    var items = 0;
+    var limit = 0;
     ajaxPromise('module/shop/controller/controller_shop.php?op=count_event_related', 'POST', 'JSON', { 'more_art': more_art })
         .then(function(data) {
             var total_items = data[0].count_artists;
             event_related(0, more_art, total_items);
             $(document).on("click", '.load_more_button', function() {
-                items = items + 3;
+                limit = limit + 3;
                 $('.more_car__button').empty();
-                event_related(items, more_art, total_items);
+                event_related(limit, more_art, total_items);
             });
         }).catch(function() {
             console.log('error total_items');
         });
 
+}
+
+function updateMostVisited(id) {
+    ajaxPromise(
+        'module/shop/controller/controller_shop.php?op=update_most_visited&id=' + id,
+        'GET', 'JSON'
+    ).then(function(data) {
+        console.log('visita registrada:', data);
+    }).catch(function() {
+        console.log('error update_most_visited');
+    });
 }
 
 $(document).ready(function() {

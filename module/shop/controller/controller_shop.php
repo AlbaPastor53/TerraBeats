@@ -114,13 +114,13 @@ switch ($_GET['op']) {
         echo json_encode($data);
         break;
 
-     case 'event_related' :
+    case 'event_related' :
         $more_art = $_POST['art'];
-        $loaded =  $_POST['loaded'];
-        $items =  $_POST['items'];
+        $offset =  $_POST['offset'];
+        $limit =  $_POST['limit'];
 
         $daoshop = new DAOShop();
-        $data = $daoshop->select_events_related($more_art, $loaded, $items);
+        $data = $daoshop->select_events_related($more_art, $offset, $limit);
         echo json_encode($data);
         break;
 
