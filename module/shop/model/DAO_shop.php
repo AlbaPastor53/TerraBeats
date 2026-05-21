@@ -234,49 +234,53 @@ class DAOShop{
         ];
     }
 
-    function select_events_related($art, $offset, $limit) {
-        $sql = "SELECT 
-                te.*,
-                c.name_city,
-                t.name_type,
-                GROUP_CONCAT(a2.name_art SEPARATOR ', ') 
-            FROM terra_events te
-            INNER JOIN cities c ON te.id_city = c.id_city
-            INNER JOIN types t ON te.id_type = t.id_type
-            INNER JOIN event_artists ea ON te.id_terra = ea.id_terra
-            INNER JOIN artists a ON ea.id_art = a.id_art
-            LEFT JOIN event_artists ea2 ON te.id_terra = ea2.id_terra
-            LEFT JOIN artists a2 ON ea2.id_art = a2.id_art
-            WHERE a.name_art = :art
-            GROUP BY te.id_terra
-            LIMIT :limit OFFSET :offset";
-             
-             $conexion = connect::con();
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(':art',    $art,         PDO::PARAM_STR);
-            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-            $stmt->bindValue(':limit',  (int)$limit,  PDO::PARAM_INT);
-            $stmt->execute();
-            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            connect::close($conexion);
-        return $rows;
-        
-    }
-
-    function count_more_events_related($more_art) {
-         $sql = "SELECT COUNT(DISTINCT te.id_terra) as count_artist
-                FROM terra_events te
-                INNER JOIN event_artists ea ON te.id_terra = ea.id_terra
-                INNER JOIN artists a ON ea.id_art = a.id_art
-                WHERE a.name_art =  :more_art";   
+   function count_more_event_related($city, $type) {
+        $sql = "SELECT COUNT(DISTINCT e.id_terra) - 1 AS n_prod
+                FROM terra_events e
+                WHERE e.id_city = :city 
+                OR e.id_type = :type";
 
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
-        $stmt->bindParam(':more_art', $more_art, PDO::PARAM_STR);
-        $stmt->execute();                           
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);  
+        $stmt->execute([':city' => $city, ':type' => $type]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         connect::close($conexion);
+        return $rows;
+    }
 
+    function select_event_related($idEvent, $city, $type, $loaded, $items) {
+        $loaded = (int) $loaded;
+        $items  = (int) $items;
+        $sql = "SELECT e.id_terra, e.name_event, e.description, e.organization,
+                    e.event_date, e.event_time, e.location, e.venue_capacity,
+                    e.price, e.status, e.tickets_available, e.sponsors,
+                    e.ticket_type, e.img, e.lat, e.lng,
+                    ci.name_city, t.name_type
+                FROM terra_events e
+                JOIN cities ci  ON e.id_city = ci.id_city
+                JOIN types t    ON e.id_type = t.id_type
+                WHERE (e.id_city = :city
+                OR e.id_type = :type)
+                AND e.id_terra <> :idEvent
+                GROUP BY e.id_terra
+                LIMIT $loaded, $items";
+
+
+
+
+        $conexion = connect::con();
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([
+            ':city'    => $city,
+            ':type'    => $type,
+            ':idEvent' => $idEvent
+        ]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        connect::close($conexion);
+        foreach ($rows as &$row) {
+            $img_event = $row['img'] ? [$row['img']] : [];
+            $row['imgs_event'] = $img_event;
+        }
         return $rows;
     }
 

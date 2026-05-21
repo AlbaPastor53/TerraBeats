@@ -107,31 +107,27 @@ switch ($_GET['op']) {
         echo json_encode($data);
         break;
 
-    case 'count_event_related' :
+    case 'count_event_related':
         $daoshop = new DAOShop();
-        $more_art = $_POST['more_art'];
-        $data = $daoshop->count_more_events_related($more_art);
+
+        $city = $_POST['city'];
+        $type = $_POST['type'];
+
+        $data = $daoshop->count_more_event_related($city, $type);
         echo json_encode($data);
         break;
 
-    case 'event_related' :
-        $more_art = $_POST['art'];
-        $offset =  $_POST['offset'];
-        $limit =  $_POST['limit'];
-
+    case 'event_related':
         $daoshop = new DAOShop();
-        $data = $daoshop->select_events_related($more_art, $offset, $limit);
-        echo json_encode($data);
-        break;
 
-    case 'update_most_visited':
-        try {
-            $daoshop = new DAOShop();
-            $daoshop->update_visits_event($_GET['id']);
-            echo json_encode("ok");
-        } catch (Exception $e) {
-            echo json_encode("error");
-        }
+        $idEvent = $_POST['idEvent'];
+        $city    = $_POST['city'];
+        $type    = $_POST['type'];
+        $loaded  = $_POST['loaded'];
+        $items   = $_POST['items'];
+        
+        $data = $daoshop->select_event_related($idEvent, $city, $type, $loaded, $items);
+        echo json_encode($data);
         break;
 
 

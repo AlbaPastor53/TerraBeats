@@ -259,8 +259,10 @@ function loadDetails(id) {
             
         });
         $('#shop-pagination').hide();
+        
         mapLeaflet_one(p);
-        more_event_related(data[0].artists);
+        console.log(p.id_terra, p.id_city, p.id_type);
+        more_event_related(p.id_terra, p.id_city, p.id_type);
 
     }).catch(function(error) {
         // console.log(data);
@@ -703,54 +705,118 @@ function pagination() {
         });
 }
 
-function event_related(loadeds = 0, more_art, total_items) {
-    let limit =3;
-    let offset = loadeds;
-    let art = more_art;
-    let total_item = total_items;
+function event_related(loaded, idEvent, city, type, total_items) {
+    var items = 4;
 
-    ajaxPromise('module/shop/controller/controller_shop.php?op=event_related', 'POST', 'JSON', { 'art': more_art, 'offset': offset, 'limit': limit  })
-        .then(function(data) {
-            if (offset == 0) {
-                $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
-                    .html(
-                        '<h2 class="cat">Artists related</h2>'
-                    )
-                for (row in data) {
-                    if (data[row].id_terra != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_terra, 'class': 'more_info_list' }).appendTo('.title_content')
-                            .html(`
-                                <p>${data[row].name_event}</p>
-                                <p>${data[row].name_art}</p>
-                            `);
-                    }
+    ajaxPromise("module/shop/controller/controller_shop.php?op=event_related", 'POST', 'JSON', {
+        'idEvent': idEvent,
+        'city':    city,
+        'type':    type,
+        'loaded':  loaded,
+        'items':   items
+    })
+    .then(function(data) {
+
+
+        function buildCard(e) {
+            var imgSrc = (e.imgs_event && e.imgs_event.length > 0)
+                ? e.imgs_event[0]
+                : 'view/img/home/events/default.jpg';
+
+            var $card = $('<div></div>').addClass('user_card').attr('id', 'related-' + e.id_terra)
+                .html(`
+                    <div class="cat-card__img-wrap">
+                        <span class="cat-card__badge">${e.name_type}</span>
+                        <img class="cat-card__img" src="${imgSrc}" alt="${e.name_event}"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+                        <div class="cat-card__fallback">${e.name_event.charAt(0).toUpperCase()}</div>
+                    </div>
+                    <div class="cat-card__body">
+                        <h3 class="cat-card__name">${e.name_event}</h3>
+                        <div class="cat-card__meta" style="display:flex; flex-direction:column; gap:4px; margin: 8px 0; font-size:0.8rem; color:#aaa;">
+                            <span>${e.name_type} · ${e.name_city} · ${e.location}</span>
+                            <span>${e.artists ? e.artists.map(a => a.name_art).join(', ') : (e.name_art || '')}</span>
+                            <span style="color: ${e.status === 'scheduled' ? '#2ecc71' : e.status === 'sold out' ? '#e74c3c' : '#f39c12'}">
+                                ${e.status}
+                            </span>
+                        </div>
+                        <div class="cat-card__footer">
+                            <button class="btn-ticket more_info_list" id="${e.id_terra}">See more ...</button>
+                        </div>
+                    </div>
+                `);
+
+            return $card;
+        }
+
+       if (loaded == 0) {
+            $('<div></div>').attr('id', 'title_content_events')
+                .appendTo('#container-date-event')
+                .html(`
+                    <h2 class="section-title" style="margin: 32px 0 16px;">Related to City or Type: </h2>
+                    <div class="cards-wrapper">
+                        <div class="cards-track-outer">
+                            <button class="cards-nav-btn cards-nav-prev" id="relatedPrev">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="swiper" id="related-swiper">
+                                <div class="swiper-wrapper" id="related-grid"></div>
+                            </div>
+                            <button class="cards-nav-btn cards-nav-next" id="relatedNext">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `);
+
+            for (var row in data) {
+                if (data[row].id_terra != undefined) {
+                    $('<div class="swiper-slide"></div>')
+                        .append(buildCard(data[row]))
+                        .appendTo('#related-grid');
                 }
-                $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
-                    .html(
-                        '<button class="load_more_button" id="load_more_button">LOAD MORE</button>'
-                    )
             }
-        }).catch(function() {
-            console.log("error cars_related");
-        });
+
+            var relatedSwiper = new Swiper('#related-swiper', {
+                slidesPerView: 3,
+                spaceBetween: 18,
+                speed: 450,
+            });
+
+            document.getElementById('relatedPrev').addEventListener('click', () => relatedSwiper.slidePrev());
+            document.getElementById('relatedNext').addEventListener('click', () => relatedSwiper.slideNext());
+        }
+
+    }).catch(function() {
+        console.log("error event_related");
+    });
 }
 
-function more_event_related(more_art){
-    var more_art = more_art;
-    var limit = 0;
-    ajaxPromise('module/shop/controller/controller_shop.php?op=count_event_related', 'POST', 'JSON', { 'more_art': more_art })
-        .then(function(data) {
-            var total_items = data[0].count_artist;
-            event_related(0, more_art, total_items);
-            $(document).on("click", '.load_more_button', function() {
-                limit = limit + 3;
-                $('.more_car__button').empty();
-                event_related(limit, more_art, total_items);
-            });
-        }).catch(function() {
-            console.log('error total_items');
+function more_event_related(idEvent, city, type) {
+    var items = 0;
+
+    ajaxPromise('module/shop/controller/controller_shop.php?op=count_event_related', 'POST', 'JSON', {
+        'idEvent': idEvent,
+        'city':    city,
+        'type':    type
+    })
+    .then(function(data) {
+        var total_items = data[0].n_prod;
+        event_related(0, idEvent, city, type, total_items);
+
+        $(document).on("click", '.load_more_button', function() {
+            items = items + 4;
+            $('#more_event__button').empty();
+            event_related(items, idEvent, city, type, total_items);
         });
 
+    }).catch(function() {
+        console.log('error total_items');
+    });
 }
 
 function updateMostVisited(id) {
