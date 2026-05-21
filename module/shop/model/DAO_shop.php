@@ -239,7 +239,7 @@ class DAOShop{
                 te.*,
                 c.name_city,
                 t.name_type,
-                GROUP_CONCAT(a2.name_art SEPARATOR ', ') AS count_artists
+                GROUP_CONCAT(a2.name_art SEPARATOR ', ') 
             FROM terra_events te
             INNER JOIN cities c ON te.id_city = c.id_city
             INNER JOIN types t ON te.id_type = t.id_type
@@ -247,7 +247,7 @@ class DAOShop{
             INNER JOIN artists a ON ea.id_art = a.id_art
             LEFT JOIN event_artists ea2 ON te.id_terra = ea2.id_terra
             LEFT JOIN artists a2 ON ea2.id_art = a2.id_art
-            WHERE a.name_art = '$art'
+            WHERE a.name_art = :art
             GROUP BY te.id_terra
             LIMIT :limit OFFSET :offset";
              
@@ -264,14 +264,15 @@ class DAOShop{
     }
 
     function count_more_events_related($more_art) {
-         $sql = "SELECT COUNT(DISTINCT te.id_terra) as num_events
+         $sql = "SELECT COUNT(DISTINCT te.id_terra) as count_artist
                 FROM terra_events te
                 INNER JOIN event_artists ea ON te.id_terra = ea.id_terra
                 INNER JOIN artists a ON ea.id_art = a.id_art
-                WHERE a.name_art = '$more_art'";
+                WHERE a.name_art =  :more_art";   
 
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);
+        $stmt->bindParam(':more_art', $more_art, PDO::PARAM_STR);
         $stmt->execute();                           
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);  
         connect::close($conexion);

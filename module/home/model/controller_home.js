@@ -1,6 +1,5 @@
 const MESES = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
  
-
 function loadEvents() {
 
     ajaxPromise('module/home/controller/controller_home.php?op=homePageEvent', 'GET', 'JSON')
@@ -57,7 +56,6 @@ function loadEvents() {
         
     });
 }
-
 /* ─── SECTION CAROUSEL: Categorías ─────────────────────── */
 function loadCategory() {
 
@@ -296,21 +294,22 @@ function loadMostVisited() {
                     <p class="event-card__title">${p.name_event}</p>
                     <div class="event-card__meta">
                         <span class="event-card__meta-item">
-                            <span class="material-symbols-outlined">location_on</span>
+                            <span class="material-symbols-outlined"></span>
                             ${p.location}
                         </span>
                         <span class="event-card__meta-item">
-                            <span class="material-symbols-outlined">calendar_month</span>
+                            <span class="material-symbols-outlined"></span>
                             ${f[2]} ${mes} ${f[0]}
                         </span>
                         <span class="event-card__meta-item">
-                            <span class="material-symbols-outlined">schedule</span>
+                            <span class="material-symbols-outlined"></span>
                             ${p.event_time}
                         </span>
                     </div>
                     <div class="event-card__footer">
                         <span class="event-card__price">${p.price}€</span>
-                        <button class="btn-ticket" data-id="${p.id_terra}">Ver entradas</button>
+                        <button class="btn-ticket most_vist" id="${p.id_terra}">See more ...</button>
+                   
                     </div>
                 </div>
             </div>
@@ -345,6 +344,9 @@ function clicks(){
             localStorage.removeItem('filter_price');
 
             
+  
+
+
     $(document).on("click",'.cat_bot', function (){
         var filter = [];
         
@@ -355,19 +357,19 @@ function clicks(){
     //   console.log(filter);
         setTimeout(function(){ 
           window.location.href = 'index.php?page=controller_shop&op=view';
-        }, 1000);  
+        }, 300);  
     }); 
 
     $(document).on("click",'.art_bot', function (){
       var filter = [];
       filter.push(['name_art', this.getAttribute('id')]);
-      console.log(this.getAttribute('id'));
+    //   console.log(this.getAttribute('id'));
       localStorage.removeItem('filter');
       localStorage.setItem('filter', JSON.stringify(filter)); 
     
         setTimeout(function(){ 
           window.location.href = 'index.php?page=controller_shop&op=view';
-        }, 1000);  
+        }, 300);  
     }); 
 
     $(document).on("click",'.cit_bot', function (){
@@ -378,19 +380,31 @@ function clicks(){
 
         setTimeout(function(){ 
           window.location.href = 'index.php?page=controller_shop&op=view';
-        }, 1000);  
+        }, 300);  
     });
+
+    
 
     $(document).on("click",'.typ_bot', function (){
       var filter = [];
       filter.push(['name_type', this.getAttribute('id')]);
+    //    console.log(this.getAttribute('id'));
       localStorage.removeItem('filter');
       localStorage.setItem('filter', JSON.stringify(filter)); 
-        setTimeout(function(){ 
+       
+      setTimeout(function(){ 
           window.location.href = 'index.php?page=controller_shop&op=view';
-        }, 1000);  
+        }, 300);  
     });
-} 
+ 
+
+    $(document).on("click", '.most_vist', function () {
+        var id_terra = this.getAttribute('id');
+        console.log(this.getAttribute('id'));
+        localStorage.setItem('open_detail', id_terra);  // guarda el id
+        window.location.href = 'index.php?page=controller_shop&op=view';
+    });
+}
 
 /* ─── INIT ──────────────────────────────────────────────── */
 $(document).ready(function () {

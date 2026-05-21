@@ -41,7 +41,7 @@ switch ($_GET['op']) {
             $Date_event = $daoshop->select_one_event($_GET['id']);
             $Date_images = $daoshop->select_imgs_event($_GET['id']);
             // $Date_extras = $daoshop->select_extra_event($_GET['id']);
-            echo json_encode([$Date_event, $Date_images]); // ← esto faltaba
+            echo json_encode([$Date_event, $Date_images]); 
             exit();
 
         } catch (Exception $e) {

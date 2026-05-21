@@ -1,5 +1,6 @@
-const MESES = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
- 
+if (typeof MESES === 'undefined') {
+    var MESES = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+}
 let mapInstance = null;
 
 var currentPage = 1;
@@ -16,7 +17,7 @@ function loadEvent() {
         ajaxForSearch("module/shop/controller/controller_shop.php?op=filter", filter, limitPerPage, 0);
         highlightFilters();
     } else {
-        console.log('ENTRA EN ALL_EVENT');
+        // console.log('ENTRA EN ALL_EVENT');
         ajaxForSearch("module/shop/controller/controller_shop.php?op=all_event", [], limitPerPage, 0);
     }
 }
@@ -262,6 +263,7 @@ function loadDetails(id) {
         more_event_related(data[0].artists);
 
     }).catch(function(error) {
+        // console.log(data);
         console.error('Error REAL:', error);
         console.log('Error detalle:', error.message, error.stack);
     });
@@ -346,7 +348,7 @@ function print_filters() {
             ).join('');
 
             const typeOptions = data.types.map(t =>
-                `<option value="${t.name_type}">${label(t.name_type)}</option>`
+                `<option value="${t.name_type.trim()}">${label(t.name_type)}</option>`
             ).join('');
 
             const cityRadios = data.cities.map(c =>
@@ -707,7 +709,7 @@ function event_related(loadeds = 0, more_art, total_items) {
     let art = more_art;
     let total_item = total_items;
 
-    ajaxPromise('module/shop/controller/controller_shop.php?op=event_related', 'POST', 'JSON', { 'art': art, 'offset': offset, 'limit': limit  })
+    ajaxPromise('module/shop/controller/controller_shop.php?op=event_related', 'POST', 'JSON', { 'art': more_art, 'offset': offset, 'limit': limit  })
         .then(function(data) {
             if (offset == 0) {
                 $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
@@ -716,7 +718,7 @@ function event_related(loadeds = 0, more_art, total_items) {
                     )
                 for (row in data) {
                     if (data[row].id_terra != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_car, 'class': 'more_info_list' }).appendTo('.title_content')
+                        $('<div></div>').attr({ 'id': data[row].id_terra, 'class': 'more_info_list' }).appendTo('.title_content')
                             .html(`
                                 <p>${data[row].name_event}</p>
                                 <p>${data[row].name_art}</p>
@@ -738,7 +740,7 @@ function more_event_related(more_art){
     var limit = 0;
     ajaxPromise('module/shop/controller/controller_shop.php?op=count_event_related', 'POST', 'JSON', { 'more_art': more_art })
         .then(function(data) {
-            var total_items = data[0].count_artists;
+            var total_items = data[0].count_artist;
             event_related(0, more_art, total_items);
             $(document).on("click", '.load_more_button', function() {
                 limit = limit + 3;
@@ -764,8 +766,21 @@ function updateMostVisited(id) {
 
 $(document).ready(function() {
     //  console.log("hola 3333333")
+    if ($('#containerevent').length === 0) return;
+
     loadEvent();
     clicks();
     print_filters();
     pagination();
+
+
+    var detailId = localStorage.getItem('open_detail');
+    if (detailId) {
+        localStorage.removeItem('open_detail');  // limpia para la próxima vez
+        setTimeout(function() {                  // espera a que loadEvent() termine
+            loadDetails(detailId);
+            updateMostVisited(detailId);
+        }, 200);
+    }
+
 });

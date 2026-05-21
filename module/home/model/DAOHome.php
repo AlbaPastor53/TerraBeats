@@ -77,7 +77,7 @@ class DAOHome
 				FROM terra_events te
 				JOIN cities c ON te.id_city = c.id_city
 				ORDER BY te.visits DESC
-				LIMIT 4";
+				LIMIT 10";
 		$conexion = connect::con();
 		$stmt = $conexion->prepare($sql);
 		$stmt->execute();
