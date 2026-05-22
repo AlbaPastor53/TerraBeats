@@ -9,29 +9,33 @@ var limitPerPage = 4;
 function loadEvent() {
    
     var filter = JSON.parse(localStorage.getItem('filter')) || false;
+    var orderby = localStorage.getItem('filter_orderby') || 'id_terra';
+    var offset  = limitPerPage * (limitPerPage - 1);
     // console.log('filter:', filter);
     // console.log('tipo:', typeof filter);
     // console.log('length:', filter.length);
     if (filter && filter.length > 0) {
         // console.log('ENTRA EN FILTER');
-        ajaxForSearch("module/shop/controller/controller_shop.php?op=filter", filter, limitPerPage, 0);
+        ajaxForSearch("module/shop/controller/controller_shop.php?op=filter", filter, limitPerPage, 0, orderby);
         highlightFilters();
     } else {
         // console.log('ENTRA EN ALL_EVENT');
-        ajaxForSearch("module/shop/controller/controller_shop.php?op=all_event", [], limitPerPage, 0);
+        ajaxForSearch("module/shop/controller/controller_shop.php?op=all_event", [], limitPerPage, 0, orderby);
     }
 }
  
-function ajaxForSearch(url, filter, limit, offset) {
+function ajaxForSearch(url, filter, limit, offset, orderby) {
     filter = filter || [];
     limit  = (limit  !== undefined) ? limit  : limitPerPage;
     offset = (offset !== undefined) ? offset : 0;
-    console.log("Datos recibidos:");
+    orderby =(orderby !== undefined) ? orderby : "id_terra";
+    // console.log("Datos recibidos:");
  
     ajaxPromise(url, 'POST', 'JSON', { 
         'filter': JSON.stringify(filter), 
         'limit': limit, 
-        'offset': offset })
+        'offset': offset, 
+        'orderby': orderby})
         
         .then(function(data) {
             console.log(data);
@@ -85,6 +89,7 @@ function ajaxForSearch(url, filter, limit, offset) {
             }
             mapLeaflet_all(data);
         }).catch(function() {
+            console.log("Ha fallado el ajax");
     });
 }
 
@@ -93,6 +98,13 @@ function clicks() {
         let id_terra = this.getAttribute('id');
         loadDetails(id_terra);
         updateMostVisited(id_terra);
+    });
+
+    $(document).on('click', '#order-btn', function() {
+    const orderby = $('#orderby').val().trim() || 'e.id_terra';
+    console.log(orderby);
+    loadEvent();
+    
     });
 
     $(document).on("click", "#btn-back", function() {
@@ -340,6 +352,8 @@ function print_filters() {
         success: function(data) {
             //  console.log(data);
 
+            
+
             // Helper: limpia \r\n y capitaliza
             const label = str => str.replace(/\r?\n/g, '').trim()
                                     .replace(/_/g, ' ')
@@ -362,6 +376,25 @@ function print_filters() {
             ).join('');
 
             $('<div class="filters-grid"></div>').appendTo('.filters').html(`
+
+
+                <div class="filter-group">
+                    <span class="filter-label">Order by</span>
+                    <div class="filter_orderby">
+                        <div class="orderby_content">
+                            <p>ORDER BY:</p>
+                            <select id="orderby">
+                            <option value = "id_terra">Order by...</option>
+                            <option value = "price ASC">Price asc</option>
+                            <option value = "price DESC">Price desc</option>
+                            <option value = "event_date ASC">Most recent</option>
+                            <option value = "event_date DESC">Least recent</option>
+                            <option value = "visits ASC">Most visited</option>
+                            </select>
+                            <input type="button" value="ORDER" id="order-btn" class="order-btn"/>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="filter-group">
                     <span class="filter-label">Artists</span>
@@ -486,6 +519,21 @@ function filter_button() {
             $('.filter_types').val(localStorage.getItem('filter_types'));
         }
 
+
+    //Filtro orderby select
+
+        $('#orderby').change(function () {
+            if (this.value === '') {
+                localStorage.removeItem('filter_orderby');
+            } else {
+                localStorage.setItem('filter_orderby', this.value);
+            }
+        });
+        if (localStorage.getItem('filter_orderby')) {
+            $('#orderby').val(localStorage.getItem('filter_orderby'));
+        }
+      
+
     // Filtro Precio slider
         $(document).on('input', '#price_min', function() {
             if (parseInt($(this).val()) > parseInt($('#price_max').val())) {
@@ -555,6 +603,7 @@ $(document).on('click', '.filter_remove', function () {
             localStorage.removeItem('filter_categories');
             localStorage.removeItem('filter_cities');
             localStorage.removeItem('filter_types');
+            localStorage.removeItem('filter_orderby');
             localStorage.removeItem('filter_price');
 
             window.location.reload();
@@ -693,7 +742,7 @@ function pagination() {
                 var filter = JSON.parse(localStorage.getItem('filter')) || false;
                 if (filter && filter.length > 0) {
                     ajaxForSearch("module/shop/controller/controller_shop.php?op=filter",
-                        filter, limitPerPage, offset);
+                        filter, limitPerPage, offset, orderby);
                 } else {
                     ajaxForSearch("module/shop/controller/controller_shop.php?op=all_event",
                         [], limitPerPage, offset);

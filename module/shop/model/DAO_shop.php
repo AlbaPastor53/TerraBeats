@@ -4,27 +4,28 @@ include($path . "/model/connect.php");
 
 class DAOShop{
     
-    function select_all_event($limit, $offset) {
-        $sql = "SELECT 
-                    te.*,
-                    c.name_city ,
-                    t.name_type 
-                FROM terra_events te
-                INNER JOIN cities c ON te.id_city = c.id_city
-                INNER JOIN types  t ON te.id_type = t.id_type
-                ORDER BY te.event_date ASC
-                LIMIT :limit OFFSET :offset";
+    function select_all_event($limit, $offset, $orderby) {
+    
+    $sql = "SELECT 
+                te.*,
+                c.name_city,
+                t.name_type 
+            FROM terra_events te
+            INNER JOIN cities c ON te.id_city = c.id_city
+            INNER JOIN types  t ON te.id_type = t.id_type
+            ORDER BY $orderby
+            LIMIT :limit OFFSET :offset";
 
-        $conexion = connect::con();
-        $stmt = $conexion->prepare($sql);
-        $stmt->bindValue(':limit',  $limit,  PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();                           
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);  
-        connect::close($conexion);
+    $conexion = connect::con();
+    $stmt = $conexion->prepare($sql);
+    $stmt->bindValue(':limit',  $limit,  PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    connect::close($conexion);
 
-        return $rows;
-    }
+    return $rows;
+}
 
     function select_all_count() {
         $sql = "SELECT COUNT(DISTINCT te.id_terra) as num_events
@@ -76,8 +77,13 @@ class DAOShop{
             return $res;
     }
 
-    function filters($filter, $limit, $offset){
+    function filters($filter, $limit, $offset, $orderby){
 
+    $allowed = ['te.id_terra', 'te.price ASC', 'te.price DESC', 'te.event_date ASC', 'te.event_date DESC', 'te.name_event ASC'];
+    if (!in_array($orderby, $allowed)) {
+        $orderby = 'te.id_terra';
+    }
+    
         $sql = "SELECT te.*, c.name_city , t.name_type
                 FROM terra_events te
                 INNER JOIN cities c ON te.id_city = c.id_city
@@ -136,7 +142,7 @@ class DAOShop{
             $sql .= " WHERE " . implode(" AND ", $conditions);
         }
 
-        $sql .= " LIMIT :limit OFFSET :offset";
+        $sql .= " ORDER BY $orderby LIMIT :limit OFFSET :offset";
 
         $conexion = connect::con();
         $stmt = $conexion->prepare($sql);

@@ -20,10 +20,13 @@ switch ($_GET['op']) {
             $daoshop = new DAOShop();
             $limit  = isset($_POST['limit'])  ? (int)$_POST['limit']  : 4;
             $offset = isset($_POST['offset']) ? (int)$_POST['offset'] : 0;
-            $Dates_event = $daoshop->select_all_event($limit , $offset);
-         
+            $orderby = $_POST['orderby'];
+            $Dates_event = $daoshop->select_all_event($limit , $offset , $orderby);
+            
+
         } catch (Exception $e) {
             echo json_encode("error");
+            exit;
         }
 
         if (!empty($Dates_event)) {
@@ -66,12 +69,13 @@ switch ($_GET['op']) {
         $limit  = isset($_POST['limit'])  ? (int)$_POST['limit']  : 4;
         $offset = isset($_POST['offset']) ? (int)$_POST['offset'] : 0;
         $filter = json_decode($_POST['filter'], true);
+        $orderby = isset($_POST['orderby']) ? $_POST['orderby'] : 'id_terra';
 
         if (!is_array($filter) || empty($filter)) {
             echo json_encode("error");
             exit;
         }
-        $selSlide = $homeQuery->filters($filter, $limit, $offset); // ← usa $filter, no $_POST['filter']
+        $selSlide = $homeQuery->filters($filter, $limit, $offset, $orderby); 
         if (!empty($selSlide)) {
             echo json_encode($selSlide);
         } else {
