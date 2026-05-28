@@ -4,6 +4,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'] . '/CRUD/terrabeats_MVC/';
 include($path . "module/auth/model/DAO_auth.php");
+include($path . "model/middleware_auth.php"); 
 
 @session_start();
 

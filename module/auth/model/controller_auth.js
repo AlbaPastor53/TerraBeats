@@ -173,6 +173,7 @@ function validate_login() {
 }
 
 function login() {
+    
     if (validate_login()) {
         var data = $('#form-login').serialize();
         ajaxPromise('index.php?page=controller_auth&op=login', 'POST', 'JSON', data)
