@@ -1,16 +1,16 @@
 <?php
-    if ((isset($_GET['page'])) && ($_GET['page']==="controller_home") ){
-		include("view/inc/top_page_home.html");
-	}else{
-		include("view/inc/top_page.html");
-	}
-
-	if ((isset($_GET['page'])) && ($_GET['page']==="controller_shop") ){
-		include("view/inc/top_page_shop.html");
-	}else{
-		include("view/inc/top_page.html");
-	}
-	session_start();
+session_start();
+ob_start();
+    if (isset($_GET['page']) && $_GET['page'] === "controller_home") {
+        include("view/inc/top_page_home.html");
+    } elseif (isset($_GET['page']) && $_GET['page'] === "controller_shop") {
+        include("view/inc/top_page_shop.html");
+    } elseif (isset($_GET['page']) && $_GET['page'] === "controller_auth") {
+        include("view/inc/top_page_auth.html");
+    } else {
+        include("view/inc/top_page.html");
+    }
+	
 ?>
 <div id="wrapper">		
     <div id="header">    	
@@ -20,7 +20,7 @@
     </div>  
     <div id="menu">
 		<?php
-		    include("view/inc/menu.php");
+		    include("view/inc/menu.html");
 		?>
     </div>	
     <div id="">

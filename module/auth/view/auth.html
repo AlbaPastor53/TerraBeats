@@ -1,0 +1,66 @@
+<div class="auth-bg">
+    <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200" alt=""/>
+    <div class="auth-bg__overlay"></div>
+</div>
+
+<div class="auth-page">
+    <div class="auth-modal">
+        <div class="auth-visual">
+            <div class="auth-visual__content">
+                <p class="auth-visual__label">♪ TerraBeats</p>
+                <h2 class="auth-visual__title">Descubre la música que mueve tu ciudad</h2>
+                <p class="auth-visual__desc">Accede a los mejores eventos, artistas y experiencias cerca de ti.</p>
+            </div>
+        </div>
+
+        <div class="auth-panel">
+            <div class="auth-tabs">
+                <button class="auth-tab auth-tab--active" id="tab-login">Login</button>
+                <button class="auth-tab" id="tab-register">Register</button>
+            </div>
+
+            <!-- LOGIN -->
+            <div class="auth-form-wrapper" id="login-container">
+                <p class="auth-heading">Bienvenido de nuevo</p>
+                <form id="form-login" onsubmit="event.preventDefault()">
+                    <div class="auth-field">
+                        <label for="login-identity">Usuario o Email</label>
+                        <input type="text" id="login-identity" name="login_identity" placeholder="tu_usuario" autocomplete="username"/>
+                    </div>
+                    <div class="auth-field">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" name="login_password" placeholder="••••••••" autocomplete="current-password"/>
+                    </div>
+                    <div id="msg-login" class="auth-msg"></div>
+                    <button type="submit" class="auth-submit" id="btn-login">Iniciar sesión</button>
+                </form>
+            </div>
+
+            <!-- REGISTER -->
+            <div class="auth-form-wrapper auth-form-wrapper--hidden" id="register-container">
+                <p class="auth-heading">Crear cuenta</p>
+                <form id="form-register" onsubmit="event.preventDefault()">
+                    <div class="auth-field">
+                        <label for="reg-username">Usuario</label>
+                        <input type="text" id="reg-username" name="reg_username" placeholder="elige_tu_nombre" autocomplete="username"/>
+                    </div>
+                    <div class="auth-field">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" name="reg_email" placeholder="tu@email.com" autocomplete="email"/>
+                    </div>
+                    <div class="auth-field">
+                        <label for="reg-password">Contraseña</label>
+                        <input type="password" id="reg-password" name="reg_password" placeholder="••••••••" autocomplete="new-password"/>
+                    </div>
+                    <label class="auth-check">
+                        <input type="checkbox" id="terms"/>
+                        <span>Acepto los <a href="#">Términos</a> y la <a href="#">Política de privacidad</a></span>
+                    </label>
+                    <div id="msg-register" class="auth-msg"></div>
+                    <button type="submit" class="auth-submit" id="btn-register">Crear cuenta</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
