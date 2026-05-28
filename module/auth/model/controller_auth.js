@@ -184,6 +184,15 @@ function login() {
                 } else if (result == "error_passwd") {
                     document.getElementById('msg-login').innerHTML = "La contraseña es incorrecta";
                     document.getElementById('msg-login').className = "auth-msg auth-msg--error";
+                } else {
+                    localStorage.setItem("token_JWT", result);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Loged successfully',
+                        showConfirmButton: false,
+                        timer: 2000
+                        });
+                       setTimeout(' window.location.href = "index.php?page=controller_home&op=view"; ', 2000);
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {

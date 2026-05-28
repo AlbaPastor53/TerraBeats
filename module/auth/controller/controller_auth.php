@@ -83,10 +83,10 @@ switch ($_GET['op']) {
                 exit;
             } else {
                 if (password_verify($_POST['login_password'], $rdo['password'])) {
-                  
+                    $token= create_token($rdo["username"]);
                     $_SESSION['username'] = $rdo['username']; 
                     $_SESSION['tiempo'] = time();
-                    echo json_encode("ok");
+                    echo json_encode($token);
                     exit;
                 } else {
                     echo json_encode("error_passwd");
