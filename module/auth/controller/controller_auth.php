@@ -100,4 +100,21 @@ switch ($_GET['op']) {
         }
         break;
 
+    case 'logout':
+        unset($_SESSION['username']);
+        unset($_SESSION['tiempo']);
+        session_destroy();
+
+        echo json_encode("Done");
+        break;
+
+    case 'data_user':
+        ob_clean();
+        header('Content-Type: application/json');
+        $json = decode_token($_POST['token']);
+        $daoLog = new DAOAuth();
+        $rdo = $daoLog->select_data_user($json['username']);
+        echo json_encode($rdo);
+        exit;
+        break;
 }

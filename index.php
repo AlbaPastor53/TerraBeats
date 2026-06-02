@@ -1,6 +1,9 @@
 <?php
 session_start();
 ob_start();
+ 
+$hide_layout = isset($_GET['page']) && $_GET['page'] === "controller_auth";
+ 
     if (isset($_GET['page']) && $_GET['page'] === "controller_home") {
         include("view/inc/top_page_home.html");
     } elseif (isset($_GET['page']) && $_GET['page'] === "controller_shop") {
@@ -12,30 +15,27 @@ ob_start();
     }
 	
 ?>
-<div id="wrapper">		
+<div id="wrapper">
+    <?php if (!$hide_layout): ?>
     <div id="header">    	
-    	<?php
-    	    include("view/inc/header.html");
-    	?>        
+    	<?php include("view/inc/header.html"); ?>        
     </div>  
     <div id="menu">
-		<?php
-		    include("view/inc/menu.html");
-		?>
-    </div>	
+		<?php include("view/inc/menu.html"); ?>
+    </div>
+    <?php endif; ?>
     <div id="">
     	<?php 
 		    include("view/inc/pages.php"); 
 		?>        
         <br style="clear:both;" />
     </div>
+    <?php if (!$hide_layout): ?>
     <div id="footer">   	   
-	    <?php
-	        include("view/inc/footer.html");
-	    ?>        
+	    <?php include("view/inc/footer.html"); ?>        
     </div>
+    <?php endif; ?>
 </div>
 <?php
     include("view/inc/bottom_page.html");
 ?>
-    

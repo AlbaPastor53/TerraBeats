@@ -40,13 +40,17 @@
                 </div>
                 <button id="search-btn">Search</button>
             </div>
-            
-            <a href="index.php?page=controller_auth&op=view" class="navbar__avatar" aria-label="Perfil">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-            </a>
+
+            <!-- Perfil de usuario (sin sesión) -->
+            <a href="index.php?page=controller_auth&op=view" class="btn-signin" id="signin">Acceder</a>
+
+            <!-- Perfil de usuario (con sesión) -->
+            <div class="user-menu" id="user-menu" style="display:none;">
+                <div class="log-icon"></div>
+                <div id="des_inf_user">
+                    <p id="user_info"></p>
+                </div>
+            </div>
         </div>
 
         <!-- Botón hamburguesa (móvil) -->
