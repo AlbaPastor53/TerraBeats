@@ -48,7 +48,11 @@ function insert_user($username, $email, $password){
 }
 
 function select_user($username) {
-    $sql = "SELECT username,password,email,role,avatar FROM users WHERE username = :username OR email = :username";
+    $sql = "SELECT username,password,email,role,avatar 
+            FROM users 
+            WHERE username = :username 
+            OR email = :username";
+
     $conexion = connect::con();
 
     $stmt = $conexion->prepare($sql);
@@ -66,7 +70,11 @@ function select_user($username) {
 }
 
 function select_data_user($username) {
-    $sql = "SELECT * FROM users WHERE username = :username OR email = :username";
+    $sql = "SELECT * 
+            FROM users 
+            WHERE username = :username 
+            OR email = :username";
+            
     $conexion = connect::con();
 
     $stmt = $conexion->prepare($sql);

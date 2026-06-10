@@ -10,6 +10,8 @@ $hide_layout = isset($_GET['page']) && $_GET['page'] === "controller_auth";
         include("view/inc/top_page_shop.html");
     } elseif (isset($_GET['page']) && $_GET['page'] === "controller_auth") {
         include("view/inc/top_page_auth.html");
+    } elseif (isset($_GET['page']) && $_GET['page'] === "controller_profile") {
+        include("view/inc/top_page_profile.html");
     } else {
         include("view/inc/top_page.html");
     }

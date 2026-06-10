@@ -1,0 +1,105 @@
+
+<style>
+    .div_search { display: none !important; }
+    .navbar__actions { justify-content: flex-end; }
+</style>
+<div class="wrapper profile-wrapper">
+
+    <aside class="sidebar profile-sidebar-layout">
+        <div class="sidebar-user">
+            <div class="sidebar-avatar">
+                <img src="" alt="User profile" class="user-avatar-placeholder">
+            </div>
+            <span class="sidebar-username">Cargando...</span> 
+        </div>
+
+        <nav class="sidebar-nav">
+            <button class="nav-btn active" id="btn-personal" onclick="switchTab('personal')">
+                <span class="material-symbols-outlined">person</span>
+                <span>Personal Info</span>
+            </button>
+            
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="nav-btn nav-btn-help">
+                <span class="material-symbols-outlined">help</span>
+                <span>Help Center</span>
+            </button>
+            <button id="logout" class="nav-btn nav-btn-logout">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Sign Out</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="profile-main">
+
+        <section class="view view-personal" id="view-personal">
+            <div class="page-header">
+                <h1>Account Settings</h1>
+                <p>Manage your personal details and how we reach you.</p>
+            </div>
+
+            <div class="personal-grid">
+                <form id="form-profile">
+                    <div class="card-space">
+                        
+                        <div class="field field-inline-edit">
+                            <label for="username">USERNAME</label>
+                            <div class="input-inline-container">
+                                <input type="text" id="reg-username" name="username" value="" readonly>
+                                <button type="button" class="btn-inline-edit" data-target="username" id="btn-edit-username">
+                                    <span class="material-symbols-outlined">edit</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="field field-inline-edit">
+                            <label for="email">E-MAIL</label>
+                            <div class="input-inline-container">
+                                <input type="email" id="reg-email" name="email" value="" readonly>
+                            </div>
+                        </div>
+
+                        <div class="field field-inline-edit">
+                            <label for="password">CONTRASEÑA</label>
+                            <div class="input-inline-container">
+                                <input type="password" id="reg-password" name="password" placeholder="••••••••" readonly>
+                                <button type="button" class="btn-inline-edit" data-target="password" id="btn-edit-password">
+                                    <span class="material-symbols-outlined">edit</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="auth-msg" id="msg-profile"></div>
+                    </div>
+                </form>
+
+                <!-- <div class="profile-sidebar-cards">
+                    <div class="profile-card-identity">
+                        <div class="profile-identity-header">
+                            <h4>Profile Identity</h4>
+                        </div>
+                        <div class="profile-identity-body">
+                            <div class="profile-avatar-display">
+                                <img src="" alt="User profile photo" class="user-avatar-placeholder">
+                            </div>
+                            <p class="profile-avatar-text">This is your avatar.</p>
+                        </div>
+                    </div>
+
+                    <div class="verified-card">
+                        <div class="verified-icon">
+                            <span class="material-symbols-outlined">verified</span>
+                        </div>
+                        <div>
+                            <h5>Verified Fan Status</h5>
+                            <p>Your account is verified. You have early access to high-demand event tickets and exclusive pre-sales.</p>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+    </main>
+</div>

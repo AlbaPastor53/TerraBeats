@@ -5,6 +5,9 @@
 $path = $_SERVER['DOCUMENT_ROOT'] . '/CRUD/terrabeats_MVC/';
 include($path . "/module/shop/model/DAO_shop.php");
 
+@session_start();
+$_SESSION['tiempo'] = time();
+
 switch ($_GET['op']) {
     case 'view':
         // $data = 'hola crtl shop view';

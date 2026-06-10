@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 21-05-2026 a las 12:37:11
+-- Tiempo de generación: 08-06-2026 a las 13:37:16
 -- Versión del servidor: 8.4.7
 -- Versión de PHP: 8.3.28
 
@@ -361,6 +361,32 @@ INSERT INTO `types` (`id_type`, `name_type`, `img_type`) VALUES
 (4, 'theatre', 'view/img/home/type/theatre.jpg'),
 (5, 'club', 'view/img/home/type/club.jpg'),
 (6, 'garden_space', 'view/img/home/type/garden.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id_user` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(25) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `role` varchar(50) DEFAULT NULL,
+  `avatar` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `role`, `avatar`) VALUES
+(1, 'Alba53', '$argon2id$v=19$m=65536,t=4,p=2$U2o5VVVpc0gueDAuLm9PMw$WQPmbkRSfE00B/ByLEba2H1lJtM85aYMWe97aC61Nqo', 'alba@gmail.com', 'client', 'https://robohash.org/79fc8c0bcd7f715b74177e540b5eafbe0daeb326053b666069be067e51db87bf'),
+(2, 'Alba35', '$argon2id$v=19$m=65536,t=4,p=2$TGhYRHVIeE5TNnRXOVIyQg$kMHEOdV2v9XvnL2GYfu30arwQXymwcrWh3hL3PJQQiE', 'jkdjfdkfj@gmail.com', 'client', 'https://robohash.org/4557bb8ba859558def8d4ba1ada7d1f5ad38d3a5240110cb140015bf7f3f2792'),
+(3, 'Carlos99', '$argon2id$v=19$m=65536,t=4,p=2$NXFaeElCWlluYUxNMGpNZg$czPJC96BewuY2xtIFOVd7KV8HgCeIyYAEbZnR18DS90', 'carlos@gmail.com', 'client', 'https://robohash.org/8ed718bac6204658fcd9e5171232d66932129fd08813441cfef061f02d98a9e1');
 
 --
 -- Restricciones para tablas volcadas

@@ -44,6 +44,323 @@
     height: 500px; /* o la altura que quieras */
 }
 
+
+
+/*PROFILE*/
+
+/* ==========================================================================
+   PROFILE LAYOUT — Estilos complementarios para SOUNDWAVE
+   ========================================================================== */
+
+.profile-wrapper {
+    display: flex;
+    min-height: calc(100vh - var(--navbar-h));
+    background-color: var(--bg);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ── Asidero lateral (Sidebar Profile) ── */
+.profile-sidebar-layout {
+    width: 280px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 24px;
+    flex-shrink: 0;
+}
+
+.sidebar-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+}
+
+.sidebar-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    margin-bottom: 14px;
+}
+
+.sidebar-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sidebar-username {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* Botones de Navegación del Perfil */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.sidebar-nav .nav-btn, 
+.sidebar-footer .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    transition: all var(--transition);
+}
+
+.sidebar-nav .nav-btn:hover,
+.sidebar-footer .nav-btn:hover {
+    background: var(--surface);
+    color: var(--text);
+}
+
+.sidebar-nav .nav-btn.active {
+    background: var(--green-dim);
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-footer .nav-btn-logout:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* ── Panel Principal ── */
+.profile-main {
+    flex: 1;
+    min-width: 0;
+    padding: 48px 40px;
+}
+
+.page-header h1 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.page-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 36px;
+}
+
+/* Grid de Información Personal */
+.personal-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.card-space {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Campos de Formulario Editables */
+.field-inline-edit label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.input-inline-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.input-inline-container input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 48px 12px 16px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+    transition: all var(--transition);
+}
+
+.input-inline-container input[readonly] {
+    background: rgba(26, 39, 26, 0.3);
+    color: var(--text-muted);
+    border-color: transparent;
+    cursor: not-allowed;
+}
+
+.btn-inline-edit {
+    position: absolute;
+    right: 12px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition);
+}
+
+.btn-inline-edit:hover {
+    color: var(--green);
+}
+
+/* Tarjetas Informativas Laterales */
+.profile-sidebar-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.profile-card-identity, .verified-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+}
+
+.profile-identity-header h4 {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.profile-identity-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-avatar-display {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+
+.profile-avatar-display img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-avatar-text {
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.verified-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: linear-gradient(135deg, var(--bg-card), var(--bg-card-alt));
+}
+
+.verified-icon {
+    color: var(--green);
+    display: flex;
+    align-items: center;
+}
+
+.verified-card h5 {
+    font-family: var(--font-display);
+    color: var(--text);
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.verified-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.auth-msg {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ── Media Queries Perfil ── */
+@media (max-width: 1024px) {
+    .personal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-wrapper {
+        flex-direction: column;
+    }
+    .profile-sidebar-layout {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 24px;
+    }
+    .sidebar-user {
+        flex-direction: row;
+        gap: 16px;
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        align-items: center;
+    }
+    .sidebar-avatar {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 0;
+    }
+    .profile-main {
+        padding: 32px 20px;
+    }
+}
+
 /* ── Paginación ── */
 #shop-pagination {
     display: flex;
@@ -137,13 +454,16 @@ body {
 }
 
 .navbar__inner {
-    max-width: var(--max-w);
+    max-width: var(--max-w); /* Usa el ancho máximo configurado en tu proyecto */
+    width: 100%;
     margin: 0 auto;
-    padding: 20px 40px;
-    height: auto;
+    padding: 10px 24px;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 32px;
+    /* Dispersa los bloques principales (Logo + Shop) a la izquierda y (Buscador + User) a la derecha */
+    justify-content: space-between; 
+    gap: 20px;
 }
 
 /* Logo */
@@ -173,11 +493,11 @@ body {
 
 /* Links */
 .navbar__links {
-    display: flex;
-    gap: 28px;
-    flex: 1;
+    display: flex !important;
+    align-items: center;
     list-style: none;
-    margin: 0; padding: 0;
+    margin: 0 0 0 20px; /* Separación elegante respecto a "TerraBeats" */
+    padding: 0;
 }
 .navbar__link {
     font-family: var(--font-display);
@@ -208,7 +528,8 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-left: auto;
+    flex: 1;
+    justify-content: space-between;
 }
 
 
@@ -220,7 +541,7 @@ body {
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: right;
     color: var(--text-muted);
     transition: all var(--transition);
     flex-shrink: 0;
@@ -239,7 +560,7 @@ body {
 
 /* Hamburguesa */
 .navbar__hamburger {
-    display: none;
+    display: none !important;
     flex-direction: column;
     gap: 5px;
     padding: 8px;
@@ -1279,18 +1600,20 @@ body {
 
  /* ── Contenedor píldora ── */
 .div_search {
-  display: flex !important;
-  align-items: center;
-  gap: 0;
-  width: 100% !important;
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 4px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.45);
-  position: relative;
+    display: flex !important; 
+    flex-direction: row !important; 
+    align-items: center;
+    gap: 0;
+    width: 100% !important;
+    max-width: 620px; 
+    margin: 0 auto; 
+    padding: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.45);
+    position: relative;
+    flex-shrink: 1; 
 }
 
 /* ── Cada sección interna ── */
@@ -1312,8 +1635,9 @@ body {
 
 /* ── Labels sobre los campos ── */
 .search-section label {
+  
   font-family: var(--font-display);
-  font-size: 9px;
+  font-size: 8px ;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1329,7 +1653,7 @@ body {
   border: none;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 11px;
   padding: 0;
   outline: none;
   cursor: pointer;
@@ -1353,7 +1677,7 @@ body {
   border: none;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 11px;
   padding: 0;
   outline: none;
   width: 100% !important;
@@ -1375,9 +1699,9 @@ body {
   color: #0a0f0a;
   border: none;
   border-radius: var(--radius-full);
-  padding: 9px 18px;
+  padding: 8px 12px;
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   transition: background var(--transition), transform 150ms ease;
@@ -1403,20 +1727,62 @@ body {
   overflow-y: auto;
 }
 
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .div_search {
-    flex-direction: column;
-    border-radius: var(--radius-lg);
-    padding: 12px;
-    gap: 4px;
-  }
-  .search-section { padding: 10px 12px; }
-  .search-divider { width: 100%; height: 1px; }
-  #search-btn { width: 100%; padding: 13px; text-align: center; }
+
+@media (max-width: 640px) {
+    .navbar__inner {
+        gap: 8px;
+    }
+    /* Ocultamos las etiquetas mini 'City', 'Category' y 'Artist' para ganar espacio */
+    .search-section label {
+        display: none !important; 
+    }
+    /* Encogemos el tamaño de la letra global para asegurar que nada se salga del fondo oscuro */
+    .search_city, .search_category, #autocom {
+        font-size: 11px !important;
+        padding: 2px 4px !important;
+    }
+    #search-btn {
+        padding: 6px 10px !important;
+        font-size: 11px !important;
+    }
+    .navbar__logo-text {
+        font-size: 14px !important;
+    }
+    .navbar__link {
+        font-size: 13px !important;
+    }
+    .navbar__actions {
+        gap: 8px;
+    }
 }
 
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .div_search {
+        flex-direction: row !important; /* Mantiene los tres bloques en horizontal */
+        border-radius: var(--radius-full) !important;
+        padding: 4px !important;
+    }
+    .search-section { 
+        padding: 4px 6px !important; 
+    }
+    .search-divider { 
+        height: 18px !important; 
+    }
+    #search-btn { 
+        padding: 8px 12px !important; 
+    }
+}
 
+@media (max-width: 992px) {
+    .navbar__inner {
+        gap: 15px;
+        padding: 10px 15px;
+    }
+    .div_search {
+        max-width: 460px; /* Se adapta dinámicamente */
+    }
+}
 
  /* ════════════════════════════════════════════
    AUTH PAGE — CSS corregido

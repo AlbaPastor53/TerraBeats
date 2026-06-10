@@ -13,8 +13,8 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
     });
 }
 
-//================LOAD-HEADER================
 
+//================LOAD-HEADER================
 function load_menu() {
     var token = localStorage.getItem('token_JWT');
     if (token) {
@@ -42,14 +42,19 @@ function load_menu() {
 //================CLICK-LOGOUT================
 function click_logout() {
     $(document).on('click', '#logout', function() {
-        setTimeout('logout(); ', 1000);
+        Swal.fire({
+                        icon: 'success',
+                        title: 'Loged-out successfully',
+                        showConfirmButton: false,
+                        timer: 2000
+                        });
+                        setTimeout('logout(); ', 1000);
     });
 }
 
-
 function click_profile() {
     $(document).on('click', '.log-icon', function() {
-        window.location.href = "index.php?page=controller_profile&op=auth";
+        window.location.href = "index.php?page=controller_profile&op=view";
     });
 }
 

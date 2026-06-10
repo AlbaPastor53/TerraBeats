@@ -6,6 +6,7 @@ $path = $_SERVER['DOCUMENT_ROOT'] . '/CRUD/terrabeats_MVC/';
 include($path . "module/home/model/DAOHome.php");
 
 @session_start();
+$_SESSION['tiempo'] = time();
 
 switch ($_GET['op']) {
     case 'view':
