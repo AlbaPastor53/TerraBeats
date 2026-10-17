@@ -127,14 +127,7 @@ Base de datos MySQL `terrabeats` con modelo relacional (InnoDB, claves foráneas
 
 3. **Configura la conexión a la base de datos** en `model/connect.php` (host, usuario, contraseña y nombre de la base de datos).
 
-4. **Crea el archivo de configuración JWT** `model/jwt.ini` con tu propio secreto:
-
-   ```ini
-   header = '{"typ":"JWT","alg":"HS256"}'
-   secret = "cambia-esto-por-una-cadena-larga-y-aleatoria"
-   ```
-
-5. Arranca Apache y MySQL y abre:
+4. Arranca Apache y MySQL y abre:
 
    ```
    http://localhost/CRUD/terrabeats_MVC/
@@ -153,17 +146,6 @@ Base de datos MySQL `terrabeats` con modelo relacional (InnoDB, claves foráneas
 | Front end | HTML5, CSS3, JavaScript, jQuery, jQuery UI, AJAX (Promises) |
 | Librerías | Swiper 11, Leaflet 1.9.4 + OpenStreetMap, SweetAlert2 |
 | Fuentes / iconos | Google Fonts (Lexend, Syne, DM Sans), Material Symbols |
-
----
-
-## 📸 Capturas de pantalla
-
-<!-- Añade tus capturas a una carpeta /docs y enlázalas aquí -->
-<!--
-![Home](docs/home.png)
-![Shop](docs/shop.png)
-![Detalle del evento](docs/detail.png)
--->
 
 ---
 
