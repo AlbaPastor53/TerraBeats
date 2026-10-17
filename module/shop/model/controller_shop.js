@@ -710,6 +710,8 @@ function pagination() {
             // El DAO devuelve [{num_events: X}] o [{num_filters: X}]
             var num_events = data[0].num_events || data[0].num_filters || 0;
             console.log('num_events:', num_events);
+                // Actualizar el contador visible del span #shop-count
+                $('#shop-count').text(num_events + ' events');
  
             // PASO 2: calcular páginas
             var num_pages = Math.ceil(num_events / limitPerPage);

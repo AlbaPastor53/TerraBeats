@@ -170,17 +170,12 @@ switch ($_GET['op']) {
         echo json_encode($new_token);
         break;
 
-    case 'refresh_token':
-        $old_token = decode_token($_POST['token']);
-        $new_token = create_token($old_token['username']);
-        echo json_encode($new_token);
-        break;
-
     case 'refresh_cookie':
         session_regenerate_id();
             echo json_encode("Done");
             exit;
         break;
+
     case 'profile':
         include("module/profile/view/profile.html");
         break;

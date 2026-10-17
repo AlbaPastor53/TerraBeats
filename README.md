@@ -101,6 +101,49 @@ Base de datos MySQL `terrabeats` con modelo relacional (InnoDB, claves foráneas
 
 ---
 
+## 🚀 Puesta en marcha
+
+### Requisitos
+- PHP 8.x (con la extensión `pdo_mysql` y soporte para Argon2)
+- MySQL / MariaDB
+- Apache (XAMPP, WAMP, MAMP o similar)
+
+### Instalación
+
+1. **Clona el repositorio** en la raíz de tu servidor web, dentro de una carpeta `CRUD` (el proyecto usa esta ruta base internamente):
+
+   ```bash
+   cd /ruta/a/htdocs
+   mkdir CRUD && cd CRUD
+   git clone https://github.com/AlbaPastor53/TerraBeats.git terrabeats_MVC
+   ```
+
+2. **Crea la base de datos** e importa el esquema y los datos de ejemplo:
+
+   ```bash
+   mysql -u root -p -e "CREATE DATABASE terrabeats CHARACTER SET utf8mb4;"
+   mysql -u root -p terrabeats < terrabeats_MVC/DB/terrabeats.sql
+   ```
+
+3. **Configura la conexión a la base de datos** en `model/connect.php` (host, usuario, contraseña y nombre de la base de datos).
+
+4. **Crea el archivo de configuración JWT** `model/jwt.ini` con tu propio secreto:
+
+   ```ini
+   header = '{"typ":"JWT","alg":"HS256"}'
+   secret = "cambia-esto-por-una-cadena-larga-y-aleatoria"
+   ```
+
+5. Arranca Apache y MySQL y abre:
+
+   ```
+   http://localhost/CRUD/terrabeats_MVC/
+   ```
+
+> ⚠️ No subas nunca `jwt.ini` ni credenciales reales al repositorio. Añade `model/jwt.ini` a tu `.gitignore`.
+
+---
+
 ## 🛠️ Stack tecnológico
 
 | Capa | Tecnologías |
@@ -110,6 +153,17 @@ Base de datos MySQL `terrabeats` con modelo relacional (InnoDB, claves foráneas
 | Front end | HTML5, CSS3, JavaScript, jQuery, jQuery UI, AJAX (Promises) |
 | Librerías | Swiper 11, Leaflet 1.9.4 + OpenStreetMap, SweetAlert2 |
 | Fuentes / iconos | Google Fonts (Lexend, Syne, DM Sans), Material Symbols |
+
+---
+
+## 📸 Capturas de pantalla
+
+<!-- Añade tus capturas a una carpeta /docs y enlázalas aquí -->
+<!--
+![Home](docs/home.png)
+![Shop](docs/shop.png)
+![Detalle del evento](docs/detail.png)
+-->
 
 ---
 
